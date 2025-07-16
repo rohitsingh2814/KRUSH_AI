@@ -194,7 +194,7 @@ const Profile = ({ user, setUser }) => {
             className="relative w-24 h-24 flex items-center justify-center  rounded-full border-4 border-white shadow-lg ring-2 ring-orange-300 hover:ring-orange-400 focus-within:ring-orange-600 cursor-pointer overflow-hidden"
           >
           <img
-          src={ image ? URL.createObjectURL(image) : "tok.jpeg" }
+          src={ image ? URL.createObjectURL(image) : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww" }
           alt="Profile"
           className="object-cover w-full h-full"
           />
