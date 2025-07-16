@@ -1,16 +1,31 @@
-import React, { useState } from 'react';
+import React, { useState, useRef } from 'react';
 import { User, Settings, Heart, History, Palette, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
+
+  
+
+
+  
 
 const Profile = ({ user, setUser }) => {
   const [activeTab, setActiveTab] = useState('profile');
   const [isEditing, setIsEditing] = useState(false);
+  const inputRef = useRef(null);
+  const [image , setimage] = useState("")
+  const handleImageClick = () =>{
+    inputRef.current.click();
+  }
+  const handleImageChange = (event) =>{
+     const file = event.target.files[0];
+      setimage(event.target.files[0]);
+  };
   const [formData, setFormData] = useState({
     name: user?.name || '',
     email: user?.email || '',
     age: user?.preferences?.age || '',
     colorTone: user?.preferences?.colorTone || '',
     events: user?.preferences?.events || []
+    
   });
 
   const events = [
@@ -113,10 +128,11 @@ const Profile = ({ user, setUser }) => {
       colors: ['#CD853F', '#DEB887']
     }
   ];
-
+  
   return (
     <div className="max-w-6xl mx-auto">
-      <div className="mb-8">
+      
+        <div className="mb-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">Profile</h1>
         <p className="text-gray-600">
           Manage your account settings and view your style history
@@ -159,7 +175,7 @@ const Profile = ({ user, setUser }) => {
           History
         </button>
       </div>
-
+        
       {/* Profile Tab */}
       {activeTab === 'profile' && (
         <div className="card">
@@ -172,6 +188,32 @@ const Profile = ({ user, setUser }) => {
               {isEditing ? 'Cancel' : 'Edit Profile'}
             </button>
           </div>
+           {/* profile pic */}
+          <div
+            onClick={handleImageClick}
+            className="relative w-24 h-24 flex items-center justify-center  rounded-full border-4 border-white shadow-lg ring-2 ring-orange-300 hover:ring-orange-400 focus-within:ring-orange-600 cursor-pointer overflow-hidden"
+          >
+          <img
+          src={ image ? URL.createObjectURL(image) : "https://images.unsplash.com/photo-1494790108377-be9c29b29330?fm=jpg&q=60&w=3000&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8cHJvZmlsZSUyMGltYWdlfGVufDB8fDB8fHww" }
+          alt="Profile"
+          className="object-cover w-full h-full"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-25 transition-opacity flex items-center justify-center rounded-full">
+              <svg className="h-8 w-8 text-white opacity-0 hover:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+             </svg>
+             </div>
+
+             
+        <input
+        type="file"
+        ref={inputRef}
+        onChange={handleImageChange}
+        accept="image/*"
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        />
+        </div>
 
           <div className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">
@@ -188,6 +230,7 @@ const Profile = ({ user, setUser }) => {
                   className="input-field disabled:bg-gray-50"
                 />
               </div>
+             
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Email Address
