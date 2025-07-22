@@ -1,9 +1,10 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, User, LogOut, Sparkles } from 'lucide-react';
+import { Menu, X, LogOut, Sparkles } from 'lucide-react';
 
 const Navbar = ({ isAuthenticated, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -26,26 +27,42 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             <Link to="/" className="text-gray-700 hover:text-primary-500 transition-colors">
               Home
             </Link>
-            
+            {isAuthenticated && (
+              <Link to="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
+                Dashboard
+              </Link>
+            )}
+
+            {/* User Avatar & Dropdown */}
             {isAuthenticated ? (
-              <>
-                <Link to="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
-                  Dashboard
-                </Link>
-                <Link to="/profile" className="text-gray-700 hover:text-primary-500 transition-colors">
-                  Profile
-                </Link>
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
-                  <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-1 text-gray-700 hover:text-red-500 transition-colors"
-                  >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
-                  </button>
-                </div>
-              </>
+              <div className="relative">
+                <img
+                  src={user?.photoURL || '/default-avatar.png'}
+                  alt="User"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="h-10 w-10 rounded-full border cursor-pointer"
+                />
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-md z-50">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsDropdownOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="flex items-center space-x-4">
                 <Link to="/login" className="btn-outline">
@@ -73,55 +90,60 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
             <div className="flex flex-col space-y-4">
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="text-gray-700 hover:text-primary-500 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
-              
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <>
-                  <Link 
-                    to="/dashboard" 
+                  <Link
+                    to="/dashboard"
                     className="text-gray-700 hover:text-primary-500 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
-                  <Link 
-                    to="/profile" 
-                    className="text-gray-700 hover:text-primary-500 transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Profile
-                  </Link>
-                  <div className="pt-4 border-t border-gray-100">
-                    <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+                  <div className="flex items-center space-x-4 px-4">
+                    <img
+                      src={user?.photoURL || '/default-avatar.png'}
+                      alt="User"
+                      className="h-10 w-10 rounded-full border"
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-2 pt-4 border-t border-gray-100">
+                    <Link
+                      to="/profile"
+                      className="btn-outline text-center"
+                      onClick={() => setIsMenuOpen(false)}
+                    >
+                      Profile
+                    </Link>
                     <button
                       onClick={() => {
                         handleLogout();
                         setIsMenuOpen(false);
                       }}
-                      className="flex items-center space-x-1 text-gray-700 hover:text-red-500 transition-colors mt-2"
+                      className="btn-primary text-center"
                     >
-                      <LogOut className="h-4 w-4" />
-                      <span>Logout</span>
+                      Logout
                     </button>
                   </div>
                 </>
-              ) : (
+              )}
+              {!isAuthenticated && (
                 <div className="flex flex-col space-y-2 pt-4 border-t border-gray-100">
-                  <Link 
-                    to="/login" 
+                  <Link
+                    to="/login"
                     className="btn-outline text-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Login
                   </Link>
-                  <Link 
-                    to="/signup" 
+                  <Link
+                    to="/signup"
                     className="btn-primary text-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -137,4 +159,4 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
   );
 };
 
-export default Navbar; 
+export default Navbar;
