@@ -1,6 +1,7 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import { Sparkles, Camera, Palette, ShoppingBag, Users, Zap, Shield } from 'lucide-react';
+import BenefitCard from '../components/BenefitCard';
 
 const Home = () => {
   return (
@@ -119,48 +120,36 @@ const Home = () => {
             Why Choose Krush AI?
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-            <div className="card">
-              <Zap className="h-8 w-8 text-primary-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Instant Analysis</h3>
-              <p className="text-gray-600">
-                Get your personalized color analysis in seconds with our advanced AI technology.
-              </p>
-            </div>
-            <div className="card">
-              <Users className="h-8 w-8 text-secondary-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Event-Specific</h3>
-              <p className="text-gray-600">
-                Tailored recommendations for different occasions - parties, weddings, work, and more.
-              </p>
-            </div>
-            <div className="card">
-              <Shield className="h-8 w-8 text-green-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Privacy First</h3>
-              <p className="text-gray-600">
-                Your photos are processed securely and never stored permanently.
-              </p>
-            </div>
-            <div className="card">
-              <ShoppingBag className="h-8 w-8 text-purple-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Direct Shopping</h3>
-              <p className="text-gray-600">
-                One-click shopping links to purchase recommended items from trusted retailers.
-              </p>
-            </div>
-            <div className="card">
-              <Palette className="h-8 w-8 text-orange-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">Color Science</h3>
-              <p className="text-gray-600">
-                Based on proven color theory and seasonal color analysis principles.
-              </p>
-            </div>
-            <div className="card">
-              <Sparkles className="h-8 w-8 text-pink-500 mb-4" />
-              <h3 className="text-xl font-semibold text-gray-900 mb-3">AI-Powered</h3>
-              <p className="text-gray-600">
-                Continuously learning AI that improves recommendations with every use.
-              </p>
-            </div>
+            <BenefitCard
+              icon={<Zap className="h-8 w-8 text-primary-500 mb-4" />}
+              title="Instant Analysis"
+              description="Get your personalized color analysis in seconds with our advanced AI technology."
+            />
+            <BenefitCard
+              icon={<Users className="h-8 w-8 text-secondary-500 mb-4" />}
+              title="Event-Specific"
+              description="Tailored recommendations for different occasions - parties, weddings, work, and more."
+            />
+            <BenefitCard
+              icon={<Shield className="h-8 w-8 text-green-500 mb-4" />}
+              title="Privacy First"
+              description="Your photos are processed securely and never stored permanently."
+            />
+            <BenefitCard
+              icon={<ShoppingBag className="h-8 w-8 text-purple-500 mb-4" />}
+              title="Direct Shopping"
+              description="One-click shopping links to purchase recommended items from trusted retailers."
+            />
+            <BenefitCard
+              icon={<Palette className="h-8 w-8 text-orange-500 mb-4" />}
+              title="Color Science"
+              description="Based on proven color theory and seasonal color analysis principles."
+            />
+            <BenefitCard
+              icon={<Sparkles className="h-8 w-8 text-pink-500 mb-4" />}
+              title="AI-Powered"
+              description="Continuously learning AI that improves recommendations with every use."
+            />
           </div>
         </div>
       </section>
