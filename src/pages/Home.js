@@ -5,7 +5,7 @@ import BenefitCard from '../components/BenefitCard';
 
 const Home = () => {
   return (
-    <div className="min-h-screen">
+    <div  className="min-h-screen">
       {/* Hero Section */}
       <section className="py-20 relative overflow-hidden flex flex-col md:flex-row items-center justify-center gap-10 md:gap-20">
         {/* Hero Text and Buttons - now on the left */}
