@@ -186,24 +186,23 @@ const Dashboard = ({ user }) => {
     <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
       <div className="max-w-7xl mx-auto">
         {/* Welcome Banner */}
-        <div className="bg-gradient-to-r from-primary-500 to-secondary-500 rounded-xl shadow-lg p-8 md:p-12 mb-8 text-white text-center overflow-hidden relative">
-            <div className="absolute -top-4 -left-4 w-32 h-32 bg-white/20 rounded-full filter blur-2xl"></div>
-            <div className="absolute -bottom-8 -right-0 w-40 h-40 bg-white/20 rounded-full filter blur-2xl"></div>
-            <div className="relative">
-                <h1 className="text-4xl md:text-5xl font-bold mb-2">
-                    Welcome, {getDisplayName()}! 👋
-                </h1>
-                <p className="text-lg md:text-xl text-primary-100">
-                    Your personal AI stylist is ready. Let's find your perfect look.
-                </p>
-            </div>
-        </div>
+        
+        {/* <div className="bg-gradient-to-r from-orange-400 via-pink-400 to-rose-400 rounded-2xl shadow-lg p-8 text-white text-center">
+    <h1 className="text-4xl font-extrabold">Welcome, {getDisplayName()}! 👋</h1>
+    <p className="text-lg mt-2">Your personal AI stylist is ready. Let’s find your perfect look.</p>
+</div> */}
+<div className="bg-gradient-to-r from-orange-300 via-orange-200 to-orange-300 rounded-3xl shadow-xl p-8 text-center text-gray-800">
+    <h1 className="text-4xl font-extrabold tracking-tight">✨ Welcome, {getDisplayName()}! ✨</h1>
+    <p className="mt-2 text-lg font-medium">Your AI stylist is ready to sprinkle some magic on your look 💖</p>
+</div>
+
+
 
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
             {/* Left Column - User Inputs */}
             <div className="lg:col-span-1 space-y-8">
                 {/* Step 1: Photo Upload */}
-                <div className="card p-6">
+                <div className="bg-orange-50 rounded-3xl shadow-lg p-6 hover:shadow-xl transition">
                     <div className="flex items-center mb-4">
                         <div className="flex-shrink-0 bg-primary-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">1</div>
                         <h2 className="text-xl font-semibold text-gray-800 ml-3">Upload Your Photo</h2>
@@ -236,7 +235,7 @@ const Dashboard = ({ user }) => {
                 </div>
 
                 {/* Step 2: Define Style */}
-                <div className="card p-6">
+                <div className="bg-orange-50 rounded-3xl shadow-lg p-6 hover:shadow-xl transition">
                       <div className="flex items-center mb-4">
                         <div className="flex-shrink-0 bg-primary-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">2</div>
                         <h2 className="text-xl font-semibold text-gray-800 ml-3">Define Your Style</h2>
