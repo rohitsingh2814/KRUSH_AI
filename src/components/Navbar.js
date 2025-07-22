@@ -37,7 +37,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             {isAuthenticated ? (
               <div className="relative">
                 <img
-                  src={user?.photoURL || '/default-avatar.png'}
+                  src={user?.photoURL || 'https://randomuser.me/api/portraits/lego/1.jpg'}
                   alt="User"
                   onClick={() => setIsDropdownOpen(!isDropdownOpen)}
                   className="h-10 w-10 rounded-full border cursor-pointer"
