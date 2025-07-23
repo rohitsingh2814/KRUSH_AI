@@ -191,7 +191,7 @@ const Dashboard = ({ user }) => {
     <h1 className="text-4xl font-extrabold">Welcome, {getDisplayName()}! 👋</h1>
     <p className="text-lg mt-2">Your personal AI stylist is ready. Let’s find your perfect look.</p>
 </div> */}
-<div className="bg-gradient-to-r from-orange-300 via-orange-200 to-orange-300 rounded-3xl shadow-xl p-8 text-center text-gray-800">
+<div className="bg-gradient-to-r from-orange-300 via-orange-200 to-orange-300 rounded-3xl shadow-xl p-8 mb-5 text-center text-gray-800">
     <h1 className="text-4xl font-extrabold tracking-tight">✨ Welcome, {getDisplayName()}! ✨</h1>
     <p className="mt-2 text-lg font-medium">Your AI stylist is ready to sprinkle some magic on your look 💖</p>
 </div>

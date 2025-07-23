@@ -18,15 +18,12 @@ function App() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
-    // Check if user is logged in from localStorage
-    const token = localStorage.getItem('authToken');
+    // Check if user is logged in from localStorage (no token required)
     const userData = localStorage.getItem('userData');
-    
-    if (token && userData) {
+    if (userData) {
       setIsAuthenticated(true);
       setUser(JSON.parse(userData));
     }
-    
     setLoading(false);
   }, []);
 
