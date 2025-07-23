@@ -1,11 +1,10 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, User, LogOut, Sparkles } from 'lucide-react';
+import { Menu, X, LogOut, Sparkles } from 'lucide-react';
 
 const Navbar = ({ isAuthenticated, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
-  const profileMenuRef = useRef(null);
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleLogout = () => {
@@ -45,44 +44,42 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             <Link to="/" className="text-gray-700 hover:text-primary-500 transition-colors">
               Home
             </Link>
-            
+            {isAuthenticated && (
+              <Link to="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
+                Dashboard
+              </Link>
+            )}
+
+            {/* User Avatar & Dropdown */}
             {isAuthenticated ? (
-              <>
-                <Link to="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
-                  Dashboard
-                </Link>
-                {/* Profile Avatar Dropdown */}
-                <div className="relative" ref={profileMenuRef}>
-                  <button
-                    onClick={() => setIsProfileMenuOpen((open) => !open)}
-                    className="flex items-center focus:outline-none"
-                  >
-                    <span className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-primary-100 text-primary-700 font-bold text-lg border border-primary-200">
-                      {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-6 w-6" />}
-                    </span>
-                  </button>
-                  {isProfileMenuOpen && (
-                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20">
-                      <Link
-                        to="/profile"
-                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
-                        onClick={() => setIsProfileMenuOpen(false)}
-                      >
-                        Profile
-                      </Link>
-                      <button
-                        onClick={() => {
-                          handleLogout();
-                          setIsProfileMenuOpen(false);
-                        }}
-                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center"
-                      >
-                        <LogOut className="h-4 w-4 mr-2" /> Logout
-                      </button>
-                    </div>
-                  )}
-                </div>
-              </>
+              <div className="relative">
+                <img
+                  src={user?.photoURL || 'https://randomuser.me/api/portraits/lego/1.jpg'}
+                  alt="User"
+                  onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                  className="h-10 w-10 rounded-full border cursor-pointer"
+                />
+                {isDropdownOpen && (
+                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-md z-50">
+                    <Link
+                      to="/profile"
+                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      onClick={() => setIsDropdownOpen(false)}
+                    >
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsDropdownOpen(false);
+                      }}
+                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                    >
+                      Logout
+                    </button>
+                  </div>
+                )}
+              </div>
             ) : (
               <div className="flex items-center space-x-4">
                 <Link to="/login" className="btn-outline">
@@ -110,32 +107,45 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
         {isMenuOpen && (
           <div className="md:hidden py-4 border-t border-gray-100">
             <div className="flex flex-col space-y-4">
-              <Link 
-                to="/" 
+              <Link
+                to="/"
                 className="text-gray-700 hover:text-primary-500 transition-colors"
                 onClick={() => setIsMenuOpen(false)}
               >
                 Home
               </Link>
-              
-              {isAuthenticated ? (
+              {isAuthenticated && (
                 <>
-                  <Link 
-                    to="/dashboard" 
+                  <Link
+                    to="/dashboard"
                     className="text-gray-700 hover:text-primary-500 transition-colors"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Dashboard
                   </Link>
-                  {/* Mobile Profile Avatar Dropdown */}
-                  <div className="relative" ref={profileMenuRef}>
-                    <button
-                      onClick={() => setIsProfileMenuOpen((open) => !open)}
-                      className="flex items-center mt-2 focus:outline-none"
+                  <div className="flex items-center space-x-4 px-4">
+                    <img
+                      src={user?.photoURL || '/default-avatar.png'}
+                      alt="User"
+                      className="h-10 w-10 rounded-full border"
+                    />
+                  </div>
+                  <div className="flex flex-col space-y-2 pt-4 border-t border-gray-100">
+                    <Link
+                      to="/profile"
+                      className="btn-outline text-center"
+                      onClick={() => setIsMenuOpen(false)}
                     >
-                      <span className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-primary-100 text-primary-700 font-bold text-lg border border-primary-200">
-                        {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-6 w-6" />}
-                      </span>
+                      Profile
+                    </Link>
+                    <button
+                      onClick={() => {
+                        handleLogout();
+                        setIsMenuOpen(false);
+                      }}
+                      className="btn-primary text-center"
+                    >
+                      Logout
                     </button>
                     {isProfileMenuOpen && (
                       <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20">
@@ -163,17 +173,18 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                     )}
                   </div>
                 </>
-              ) : (
+              )}
+              {!isAuthenticated && (
                 <div className="flex flex-col space-y-2 pt-4 border-t border-gray-100">
-                  <Link 
-                    to="/login" 
+                  <Link
+                    to="/login"
                     className="btn-outline text-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
                     Login
                   </Link>
-                  <Link 
-                    to="/signup" 
+                  <Link
+                    to="/signup"
                     className="btn-primary text-center"
                     onClick={() => setIsMenuOpen(false)}
                   >
@@ -189,4 +200,4 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
   );
 };
 
-export default Navbar; 
+export default Navbar;

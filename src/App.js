@@ -8,11 +8,15 @@ import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
 import toast from 'react-hot-toast';
 
+
+
+
 function App() {
+  
   const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [user, setUser] = useState(null);
   const [loading, setLoading] = useState(true);
-
+  
   useEffect(() => {
     // Check if user is logged in from localStorage
     const token = localStorage.getItem('authToken');

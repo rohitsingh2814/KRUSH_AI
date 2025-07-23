@@ -2,10 +2,6 @@ import React, { useState, useRef } from 'react';
 import { User, Settings, Heart, History, Palette, Save } from 'lucide-react';
 import toast from 'react-hot-toast';
 
-  
-
-
-  
 
 const Profile = ({ user, setUser }) => {
   const [activeTab, setActiveTab] = useState('profile');
@@ -193,36 +189,27 @@ const Profile = ({ user, setUser }) => {
             onClick={isEditing ? handleImageClick : undefined}
             className={`relative w-24 h-24 flex items-center justify-center rounded-full border-4 border-white shadow-lg ring-2 ring-orange-300 ${isEditing ? 'hover:ring-orange-400 focus-within:ring-orange-600 cursor-pointer' : ''} overflow-hidden`}
           >
-            {image ? (
-              <img
-                src={URL.createObjectURL(image)}
-                alt="Profile"
-                className="object-cover w-full h-full"
-              />
-            ) : (
-              <span className="inline-flex items-center justify-center w-full h-full text-4xl font-bold bg-primary-100 text-primary-700">
-                {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-12 w-12" />}
-              </span>
-            )}
-            {isEditing && (
-              <>
-                <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-25 transition-opacity flex items-center justify-center rounded-full">
-                  <svg className="h-8 w-8 text-white opacity-0 hover:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none"
-                    viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                  </svg>
-                </div>
-                <input
-                  type="file"
-                  ref={inputRef}
-                  onChange={handleImageChange}
-                  accept="image/*"
-                  className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
-                  style={{ display: isEditing ? 'block' : 'none' }}
-                />
-              </>
-            )}
-          </div>
+          <img
+          src={ image ? URL.createObjectURL(image) : "https://randomuser.me/api/portraits/lego/1.jpg" }
+          alt="Profile"
+          className="object-cover w-full h-full"
+          />
+          <div className="absolute inset-0 bg-black bg-opacity-0 hover:bg-opacity-25 transition-opacity flex items-center justify-center rounded-full">
+              <svg className="h-8 w-8 text-white opacity-0 hover:opacity-100 transition-opacity" xmlns="http://www.w3.org/2000/svg" fill="none"
+         viewBox="0 0 24 24" stroke="currentColor">
+          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+             </svg>
+             </div>
+
+             
+        <input
+        type="file"
+        ref={inputRef}
+        onChange={handleImageChange}
+        accept="image/*"
+        className="absolute inset-0 w-full h-full opacity-0 cursor-pointer"
+        />
+        </div>
 
           <div className="space-y-6">
             <div className="grid md:grid-cols-2 gap-6">

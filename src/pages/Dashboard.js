@@ -164,180 +164,162 @@ const Dashboard = ({ user }) => {
     setRecommendations([]);
   };
 
+  const getDisplayName = () => {
+    if (user) {
+      // Prefer full name if it looks like a full name (contains a space or is longer than 12 chars)
+      if (user.name && (user.name.trim().includes('') || user.name.trim().length > 12)) {
+        return user.name;
+      }
+      // Fallback to username if present
+      if (user.username) {
+        return user.username;
+      }
+      // Fallback to email
+      if (user.email) {
+        return user.email;
+      }
+    }
+    return 'there';
+  };
+
   return (
-    <div className="max-w-6xl mx-auto">
-      <div className="mb-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Welcome back, {user?.name}! 👋
-        </h1>
-        <p className="text-gray-600">
-          Upload your photo and let our AI create personalized fashion recommendations for you.
-        </p>
-      </div>
+    <div className="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+      <div className="max-w-7xl mx-auto">
+        {/* Welcome Banner */}
+        
+        {/* <div className="bg-gradient-to-r from-orange-400 via-pink-400 to-rose-400 rounded-2xl shadow-lg p-8 text-white text-center">
+    <h1 className="text-4xl font-extrabold">Welcome, {getDisplayName()}! 👋</h1>
+    <p className="text-lg mt-2">Your personal AI stylist is ready. Let’s find your perfect look.</p>
+</div> */}
+<div className="bg-gradient-to-r from-orange-300 via-orange-200 to-orange-300 rounded-3xl shadow-xl p-8 text-center text-gray-800">
+    <h1 className="text-4xl font-extrabold tracking-tight">✨ Welcome, {getDisplayName()}! ✨</h1>
+    <p className="mt-2 text-lg font-medium">Your AI stylist is ready to sprinkle some magic on your look 💖</p>
+</div>
 
-      <div className="grid lg:grid-cols-2 gap-8">
-        {/* Left Column - Upload and Settings */}
-        <div className="space-y-6">
-          {/* Photo Upload */}
-          <div className="card">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4 flex items-center">
-              <Camera className="h-5 w-5 mr-2 text-primary-500" />
-              Upload Your Photo
-            </h2>
-            
-            {!uploadedImage ? (
-              <div
-                {...getRootProps()}
-                className={`border-2 border-dashed rounded-lg p-8 text-center cursor-pointer transition-colors ${
-                  isDragActive
-                    ? 'border-primary-500 bg-primary-50'
-                    : 'border-gray-300 hover:border-primary-400'
-                }`}
-              >
-                <input {...getInputProps()} />
-                <Upload className="h-12 w-12 text-gray-400 mx-auto mb-4" />
-                {isDragActive ? (
-                  <p className="text-primary-600">Drop the photo here...</p>
-                ) : (
-                  <div>
-                    <p className="text-gray-600 mb-2">
-                      Drag & drop a photo here, or click to select
-                    </p>
-                    <p className="text-sm text-gray-500">
-                      Supports JPG, PNG, WEBP (max 5MB)
-                    </p>
-                  </div>
-                )}
-              </div>
-            ) : (
-              <div className="relative">
-                <img
-                  src={uploadedImage}
-                  alt="Uploaded"
-                  className="w-full h-64 object-cover rounded-lg"
-                />
-                <button
-                  onClick={removeImage}
-                  className="absolute top-2 right-2 bg-red-500 text-white p-2 rounded-full hover:bg-red-600 transition-colors"
-                >
-                  <X className="h-4 w-4" />
-                </button>
-              </div>
-            )}
-          </div>
 
-          {/* Event Selection */}
-          <div className="card">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Select Event</h2>
-            <div className="grid grid-cols-2 gap-3">
-              {events.map((event) => (
-                <button
-                  key={event.id}
-                  onClick={() => setSelectedEvent(event.id)}
-                  className={`p-4 rounded-lg border-2 text-left transition-colors ${
-                    selectedEvent === event.id
-                      ? 'border-primary-500 bg-primary-50 text-primary-700'
-                      : 'border-gray-200 hover:border-gray-300'
-                  }`}
-                >
-                  <div className="text-2xl mb-2">{event.icon}</div>
-                  <div className="font-medium">{event.name}</div>
-                </button>
-              ))}
-            </div>
-          </div>
 
-          {/* Age and Color Tone */}
-          <div className="card">
-            <h2 className="text-xl font-semibold text-gray-900 mb-4">Personal Details</h2>
-            
-            <div className="space-y-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Age Range
-                </label>
-                <select
-                  value={age}
-                  onChange={(e) => setAge(e.target.value)}
-                  className="input-field"
-                >
-                  <option value="">Select age range</option>
-                  {ageRanges.map((range) => (
-                    <option key={range.id} value={range.id}>
-                      {range.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">
-                  Color Tone
-                </label>
-                <div className="grid grid-cols-2 gap-3">
-                  {colorTones.map((tone) => (
-                    <button
-                      key={tone.id}
-                      onClick={() => setColorTone(tone.id)}
-                      className={`p-3 rounded-lg border-2 text-left transition-colors ${
-                        colorTone === tone.id
-                          ? 'border-primary-500 bg-primary-50 text-primary-700'
-                          : 'border-gray-200 hover:border-gray-300'
-                      }`}
-                    >
-                      <div className="font-medium">{tone.name}</div>
-                      <div className="text-xs text-gray-500">{tone.description}</div>
-                    </button>
-                  ))}
+        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - User Inputs */}
+            <div className="lg:col-span-1 space-y-8">
+                {/* Step 1: Photo Upload */}
+                <div className="bg-orange-50 rounded-3xl shadow-lg p-6 hover:shadow-xl transition">
+                    <div className="flex items-center mb-4">
+                        <div className="flex-shrink-0 bg-primary-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">1</div>
+                        <h2 className="text-xl font-semibold text-gray-800 ml-3">Upload Your Photo</h2>
+                    </div>
+                    
+                    {!uploadedImage ? (
+                        <div {...getRootProps()} className={`relative border-2 border-dashed rounded-xl p-8 text-center cursor-pointer transition-all duration-300 ease-in-out group ${isDragActive ? 'border-primary-500 bg-primary-50 scale-105' : 'border-gray-300 hover:border-primary-400'}`}>
+                            <input {...getInputProps()} />
+                            <div className="flex flex-col items-center justify-center h-48">
+                                <Upload className="h-12 w-12 text-gray-400 mb-4 transition-transform duration-300 ease-in-out transform group-hover:scale-110" />
+                                {isDragActive ? (
+                                    <p className="text-primary-600 font-semibold">Drop it like it's hot!</p>
+                                ) : (
+                                    <>
+                                        <p className="font-semibold text-gray-700">Drag & drop or click to upload</p>
+                                        <p className="text-sm text-gray-500 mt-1">PNG, JPG, WEBP (Max 5MB)</p>
+                                    </>
+                                )}
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="relative group rounded-xl overflow-hidden">
+                            <img src={uploadedImage} alt="Uploaded" className="w-full h-auto object-cover transition-transform duration-300 ease-in-out group-hover:scale-105" />
+                            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-40 transition-all duration-300 ease-in-out"></div>
+                            <button onClick={removeImage} className="absolute top-3 right-3 bg-red-500 text-white p-2 rounded-full opacity-0 group-hover:opacity-100 transition-opacity duration-300 ease-in-out transform hover:scale-110">
+                                <X className="h-5 w-5" />
+                            </button>
+                        </div>
+                    )}
                 </div>
-              </div>
+
+                {/* Step 2: Define Style */}
+                <div className="bg-orange-50 rounded-3xl shadow-lg p-6 hover:shadow-xl transition">
+                      <div className="flex items-center mb-4">
+                        <div className="flex-shrink-0 bg-primary-500 text-white rounded-full h-8 w-8 flex items-center justify-center font-bold text-lg">2</div>
+                        <h2 className="text-xl font-semibold text-gray-800 ml-3">Define Your Style</h2>
+                    </div>
+                    
+                    <div className="space-y-6">
+                        {/* Event Selection */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Event</label>
+                            <div className="grid grid-cols-3 gap-2">
+                                {events.map((event) => (
+                                    <button key={event.id} onClick={() => setSelectedEvent(event.id)} className={`flex flex-col items-center p-2 rounded-lg border-2 transition-all ${selectedEvent === event.id ? 'border-primary-500 bg-primary-50 scale-105 shadow-md' : 'border-gray-200 hover:border-gray-300'}`}>
+                                        <span className="text-2xl">{event.icon}</span>
+                                        <span className="text-xs font-medium text-center">{event.name}</span>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+
+                        {/* Age Range */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Age Range</label>
+                            <select value={age} onChange={(e) => setAge(e.target.value)} className="input-field">
+                                <option value="">Select...</option>
+                                {ageRanges.map((range) => (<option key={range.id} value={range.id}>{range.name}</option>))}
+                            </select>
+                        </div>
+
+                        {/* Color Tone */}
+                        <div>
+                            <label className="block text-sm font-medium text-gray-700 mb-2">Color Tone</label>
+                            <div className="grid grid-cols-2 gap-2">
+                                {colorTones.map((tone) => (
+                                    <button key={tone.id} onClick={() => setColorTone(tone.id)} className={`p-3 rounded-lg border-2 text-left transition-colors ${colorTone === tone.id ? 'border-primary-500 bg-primary-50' : 'border-gray-200 hover:border-gray-300'}`}>
+                                        <div className="font-semibold text-sm text-gray-800">{tone.name}</div>
+                                        <div className="text-xs text-gray-500">{tone.description}</div>
+                                    </button>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                {/* Step 3: Analyze */}
+                <button
+                    onClick={analyzeImage}
+                    disabled={!uploadedImage || !selectedEvent || !age || !colorTone || isAnalyzing}
+                    className="w-full btn-primary py-4 text-lg font-semibold disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center shadow-lg hover:shadow-xl transition-shadow transform hover:-translate-y-1"
+                >
+                      {isAnalyzing ? (
+                          <>
+                            <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-3"></div>
+                              <span>Analyzing Your Vibe...</span>
+                          </>
+                      ) : (
+                          <>
+                              <Sparkles className="h-6 w-6 mr-2" />
+                              Get My Recommendations
+                          </>
+                      )}
+                </button>
             </div>
-          </div>
 
-          {/* Analyze Button */}
-          <button
-            onClick={analyzeImage}
-            disabled={!uploadedImage || !selectedEvent || !age || !colorTone || isAnalyzing}
-            className="w-full btn-primary py-4 text-lg font-medium disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center"
-          >
-            {isAnalyzing ? (
-              <>
-                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
-                Analyzing...
-              </>
-            ) : (
-              <>
-                <Sparkles className="h-5 w-5 mr-2" />
-                Analyze & Get Recommendations
-              </>
-            )}
-          </button>
-        </div>
-
-        {/* Right Column - Results */}
-        <div className="space-y-6">
-          {/* Color Analysis Results */}
-          {analysisResults && (
-            <ColorAnalysis results={analysisResults} />
-          )}
-
-          {/* Clothing Recommendations */}
-          {recommendations.length > 0 && (
-            <ClothingRecommendations recommendations={recommendations} />
-          )}
-
-          {/* Empty State */}
-          {!analysisResults && !isAnalyzing && (
-            <div className="card text-center py-12">
-              <Palette className="h-16 w-16 text-gray-300 mx-auto mb-4" />
-              <h3 className="text-lg font-medium text-gray-900 mb-2">
-                Ready to discover your style?
-              </h3>
-              <p className="text-gray-500">
-                Upload a photo, select your event, and let our AI create personalized recommendations for you.
-              </p>
+            {/* Right Column - Results */}
+            <div className="lg:col-span-2 space-y-8">
+                  {/* Results will appear here */}
+                  {analysisResults && <ColorAnalysis results={analysisResults} />}
+                  {recommendations.length > 0 && <ClothingRecommendations recommendations={recommendations} />}
+                  
+                  {/* Empty State */}
+                  {!analysisResults && !isAnalyzing && (
+                      <div className="flex flex-col items-center justify-center bg-white rounded-xl shadow-md p-8 h-full text-center">
+                          <div className="bg-primary-50 rounded-full p-6 mb-6">
+                            <Palette className="h-16 w-16 text-primary-400" />
+                          </div>
+                          <h3 className="text-2xl font-bold text-gray-800 mb-2">
+                              Your Style Awaits
+                          </h3>
+                          <p className="text-gray-500 max-w-sm">
+                            Complete the steps on the left to unlock your personalized fashion recommendations, powered by AI.
+                          </p>
+                      </div>
+                  )}
             </div>
-          )}
         </div>
       </div>
     </div>
