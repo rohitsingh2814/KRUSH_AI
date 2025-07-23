@@ -1,15 +1,34 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Menu, X, User, LogOut, Sparkles } from 'lucide-react';
 
 const Navbar = ({ isAuthenticated, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isProfileMenuOpen, setIsProfileMenuOpen] = useState(false);
+  const profileMenuRef = useRef(null);
   const navigate = useNavigate();
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
   };
+
+  // Close profile menu on outside click
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
+        setIsProfileMenuOpen(false);
+      }
+    }
+    if (isProfileMenuOpen) {
+      document.addEventListener('mousedown', handleClickOutside);
+    } else {
+      document.removeEventListener('mousedown', handleClickOutside);
+    }
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [isProfileMenuOpen]);
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-100">
@@ -32,18 +51,36 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                 <Link to="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
                   Dashboard
                 </Link>
-                <Link to="/profile" className="text-gray-700 hover:text-primary-500 transition-colors">
-                  Profile
-                </Link>
-                <div className="flex items-center space-x-4">
-                  <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+                {/* Profile Avatar Dropdown */}
+                <div className="relative" ref={profileMenuRef}>
                   <button
-                    onClick={handleLogout}
-                    className="flex items-center space-x-1 text-gray-700 hover:text-red-500 transition-colors"
+                    onClick={() => setIsProfileMenuOpen((open) => !open)}
+                    className="flex items-center focus:outline-none"
                   >
-                    <LogOut className="h-4 w-4" />
-                    <span>Logout</span>
+                    <span className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-primary-100 text-primary-700 font-bold text-lg border border-primary-200">
+                      {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-6 w-6" />}
+                    </span>
                   </button>
+                  {isProfileMenuOpen && (
+                    <div className="absolute right-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20">
+                      <Link
+                        to="/profile"
+                        className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
+                        onClick={() => setIsProfileMenuOpen(false)}
+                      >
+                        Profile
+                      </Link>
+                      <button
+                        onClick={() => {
+                          handleLogout();
+                          setIsProfileMenuOpen(false);
+                        }}
+                        className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center"
+                      >
+                        <LogOut className="h-4 w-4 mr-2" /> Logout
+                      </button>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
@@ -90,25 +127,40 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                   >
                     Dashboard
                   </Link>
-                  <Link 
-                    to="/profile" 
-                    className="text-gray-700 hover:text-primary-500 transition-colors"
-                    onClick={() => setIsMenuOpen(false)}
-                  >
-                    Profile
-                  </Link>
-                  <div className="pt-4 border-t border-gray-100">
-                    <span className="text-sm text-gray-600">Welcome, {user?.name}</span>
+                  {/* Mobile Profile Avatar Dropdown */}
+                  <div className="relative" ref={profileMenuRef}>
                     <button
-                      onClick={() => {
-                        handleLogout();
-                        setIsMenuOpen(false);
-                      }}
-                      className="flex items-center space-x-1 text-gray-700 hover:text-red-500 transition-colors mt-2"
+                      onClick={() => setIsProfileMenuOpen((open) => !open)}
+                      className="flex items-center mt-2 focus:outline-none"
                     >
-                      <LogOut className="h-4 w-4" />
-                      <span>Logout</span>
+                      <span className="inline-flex items-center justify-center h-9 w-9 rounded-full bg-primary-100 text-primary-700 font-bold text-lg border border-primary-200">
+                        {user?.name ? user.name.charAt(0).toUpperCase() : <User className="h-6 w-6" />}
+                      </span>
                     </button>
+                    {isProfileMenuOpen && (
+                      <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20">
+                        <Link
+                          to="/profile"
+                          className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
+                          onClick={() => {
+                            setIsProfileMenuOpen(false);
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          Profile
+                        </Link>
+                        <button
+                          onClick={() => {
+                            handleLogout();
+                            setIsProfileMenuOpen(false);
+                            setIsMenuOpen(false);
+                          }}
+                          className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center"
+                        >
+                          <LogOut className="h-4 w-4 mr-2" /> Logout
+                        </button>
+                      </div>
+                    )}
                   </div>
                 </>
               ) : (
