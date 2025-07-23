@@ -23,29 +23,21 @@ const Login = ({ onLogin }) => {
     e.preventDefault();
     setLoading(true);
 
-    // Simulate API call
     try {
-      // In a real app, you would make an API call here
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      // Mock authentication
-      if (formData.email && formData.password) {
-        const mockUser = {
-          id: '1',
-          name: formData.email.split('@')[0],
+      const res = await fetch('http://localhost:5000/login', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
           email: formData.email,
-          preferences: {
-            age: '',
-            colorTone: '',
-            events: []
-          }
-        };
-        const mockToken = 'mock-jwt-token-' + Date.now();
-        
-        onLogin(mockUser, mockToken);
-        navigate('/dashboard');
+          password: formData.password
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || 'Login failed. Please try again.');
       } else {
-        toast.error('Please fill in all fields');
+        onLogin(data.user, ''); // You can use a real token if you add JWT support
+        navigate('/dashboard');
       }
     } catch (error) {
       toast.error('Login failed. Please try again.');

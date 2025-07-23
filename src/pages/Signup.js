@@ -56,25 +56,23 @@ const Signup = ({ onSignup }) => {
     
     setLoading(true);
 
-    // Simulate API call
     try {
-      // In a real app, you would make an API call here
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const mockUser = {
-        id: '1',
-        name: formData.name,
-        email: formData.email,
-        preferences: {
-          age: '',
-          colorTone: '',
-          events: []
-        }
-      };
-      const mockToken = 'mock-jwt-token-' + Date.now();
-      
-      onSignup(mockUser, mockToken);
-      navigate('/dashboard');
+      const res = await fetch('http://localhost:5000/signup', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: formData.name,
+          email: formData.email,
+          password: formData.password
+        })
+      });
+      const data = await res.json();
+      if (!res.ok) {
+        toast.error(data.error || 'Signup failed. Please try again.');
+      } else {
+        toast.success('Signup successful! Please login.');
+        navigate('/login');
+      }
     } catch (error) {
       toast.error('Signup failed. Please try again.');
     } finally {
