@@ -36,6 +36,9 @@ const Login = ({ onLogin }) => {
       if (!res.ok) {
         toast.error(data.error || 'Login failed. Please try again.');
       } else {
+        // Save user data to localStorage for persistence
+        localStorage.setItem('userData', JSON.stringify(data.user));
+        // If you add JWT support, also save: localStorage.setItem('authToken', data.token);
         onLogin(data.user, ''); // You can use a real token if you add JWT support
         navigate('/dashboard');
       }

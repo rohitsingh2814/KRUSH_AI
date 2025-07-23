@@ -12,6 +12,7 @@
     "express": "^5.1.0",
     "jsonwebtoken": "^9.0.2",
     "lucide-react": "^0.263.1",
+    "mongobd": "^0.0.1-security.0",
     "mongoose": "^8.16.4",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
