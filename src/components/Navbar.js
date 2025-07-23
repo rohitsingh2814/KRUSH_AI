@@ -6,6 +6,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const navigate = useNavigate();
+  const profileMenuRef = useRef(null);
 
   const handleLogout = () => {
     onLogout();
@@ -16,10 +17,10 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
   useEffect(() => {
     function handleClickOutside(event) {
       if (profileMenuRef.current && !profileMenuRef.current.contains(event.target)) {
-        setIsProfileMenuOpen(false);
+        setIsDropdownOpen(false);
       }
     }
-    if (isProfileMenuOpen) {
+    if (isDropdownOpen) {
       document.addEventListener('mousedown', handleClickOutside);
     } else {
       document.removeEventListener('mousedown', handleClickOutside);
@@ -27,7 +28,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
     return () => {
       document.removeEventListener('mousedown', handleClickOutside);
     };
-  }, [isProfileMenuOpen]);
+  }, [isDropdownOpen]);
 
   return (
     <nav className="bg-white shadow-lg border-b border-gray-100">
@@ -52,7 +53,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
 
             {/* User Avatar & Dropdown */}
             {isAuthenticated ? (
-              <div className="relative">
+              <div className="relative" ref={profileMenuRef}>
                 <img
                   src={user?.photoURL || 'https://randomuser.me/api/portraits/lego/1.jpg'}
                   alt="User"
@@ -60,11 +61,16 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                   className="h-10 w-10 rounded-full border cursor-pointer"
                 />
                 {isDropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-40 bg-white border rounded-lg shadow-md z-50">
+                  <div
+                    className="absolute right-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20"
+                  >
                     <Link
                       to="/profile"
-                      className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                      onClick={() => setIsDropdownOpen(false)}
+                      className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
+                      onClick={() => {
+                        setIsDropdownOpen(false);
+                        setIsMenuOpen(false);
+                      }}
                     >
                       Profile
                     </Link>
@@ -72,10 +78,11 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                       onClick={() => {
                         handleLogout();
                         setIsDropdownOpen(false);
+                        setIsMenuOpen(false);
                       }}
-                      className="block w-full text-left px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                      className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center"
                     >
-                      Logout
+                      <LogOut className="h-4 w-4 mr-2" /> Logout
                     </button>
                   </div>
                 )}
@@ -147,13 +154,15 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                     >
                       Logout
                     </button>
-                    {isProfileMenuOpen && (
-                      <div className="absolute left-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20">
+                    {isDropdownOpen && (
+                      <div
+                        className="absolute right-0 mt-2 w-40 bg-white border border-gray-100 rounded-lg shadow-lg z-20"
+                      >
                         <Link
                           to="/profile"
                           className="block px-4 py-2 text-gray-700 hover:bg-gray-50"
                           onClick={() => {
-                            setIsProfileMenuOpen(false);
+                            setIsDropdownOpen(false);
                             setIsMenuOpen(false);
                           }}
                         >
@@ -162,7 +171,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
                         <button
                           onClick={() => {
                             handleLogout();
-                            setIsProfileMenuOpen(false);
+                            setIsDropdownOpen(false);
                             setIsMenuOpen(false);
                           }}
                           className="w-full text-left px-4 py-2 text-gray-700 hover:bg-gray-50 flex items-center"
