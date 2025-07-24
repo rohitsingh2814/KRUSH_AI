@@ -16,7 +16,7 @@ const Signup = ({ onSignup }) => {
   const navigate = useNavigate();
 
   // Set your Vercel deployment URL here
-  const API_BASE_URL = 'https://your-vercel-app.vercel.app/api'; // <-- Replace with your actual Vercel app URL
+  const API_BASE_URL = 'https://krush-ai.vercel.app/api'; // <-- Replace with your actual Vercel app URL
 
   const handleChange = (e) => {
     setFormData({
