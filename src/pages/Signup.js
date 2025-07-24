@@ -15,6 +15,9 @@ const Signup = ({ onSignup }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
+  // Set your Vercel deployment URL here
+  const API_BASE_URL = 'https://your-vercel-app.vercel.app/api'; // <-- Replace with your actual Vercel app URL
+
   const handleChange = (e) => {
     setFormData({
       ...formData,
@@ -57,7 +60,7 @@ const Signup = ({ onSignup }) => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/signup', {
+      const res = await fetch(`${API_BASE_URL}/signup`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
