@@ -12,8 +12,8 @@ const Login = ({ onLogin }) => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
-  // Set your Vercel deployment URL here
-  const API_BASE_URL = 'https://your-vercel-app.vercel.app/api'; // <-- Replace with your actual Vercel app URL
+  // Set your API base URL for local development
+  const API_BASE_URL = 'http://localhost:5000';
 
   const handleChange = (e) => {
     setFormData({
