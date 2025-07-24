@@ -1,13 +1,14 @@
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
+require('dotenv').config();
 
 const app = express();
 app.use(express.json());
 app.use(cors());
 
-// Replace with your MongoDB connection string if needed
-mongoose.connect('mongodb://localhost:27017/krush_ai', {
+// Connect to MongoDB using the connection string from .env
+mongoose.connect(process.env.MONGO_URi, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => console.log('MongoDB connected'))
