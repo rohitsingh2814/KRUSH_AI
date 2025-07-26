@@ -137,7 +137,7 @@ const Login = ({ onLogin }) => {
                 disabled={loading}
                 className="w-full btn-primary py-3 text-base font-medium disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {loading ? 'Signing in...' : 'Sign in'}
+                {loading ? 'Logging in...' : 'Log in'}
               </button>
             </div>
 
