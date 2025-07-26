@@ -1,10 +1,20 @@
 import React, { useState, useRef } from 'react';
-import { User, Settings, Heart, History, Palette, Save } from 'lucide-react';
+import { User, Heart, History, Palette } from 'lucide-react';
 import toast from 'react-hot-toast';
+import { useLocation } from 'react-router-dom';
+import { useEffect } from 'react';
 
 
 const Profile = ({ user, setUser }) => {
-  const [activeTab, setActiveTab] = useState('profile');
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const defaultTab = queryParams.get('tab') || 'profile';
+  const [activeTab, setActiveTab] = useState(defaultTab);
+
+  useEffect(() => {
+    setActiveTab(defaultTab);
+  }, [defaultTab]);
+
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef(null);
   const [image , setimage] = useState("")
