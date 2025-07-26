@@ -47,7 +47,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             </Link>
             {isAuthenticated && (
               <Link to="/dashboard" className="text-gray-700 hover:text-primary-500 transition-colors">
-                Dashboard
+                Studio
               </Link>
             )}
 
