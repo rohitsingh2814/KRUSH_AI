@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { Eye, EyeOff, Mail, Lock, User, Sparkles } from 'lucide-react';
 import toast from 'react-hot-toast';
+import Modal from '../components/Modal';
 
 const Signup = ({ onSignup }) => {
   const [formData, setFormData] = useState({
@@ -10,6 +11,7 @@ const Signup = ({ onSignup }) => {
     password: '',
     confirmPassword: ''
   });
+  const [showTerms, setShowTerms] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -204,14 +206,21 @@ const Signup = ({ onSignup }) => {
               />
               <label htmlFor="terms" className="ml-2 block text-sm text-gray-700">
                 I agree to the{' '}
-                <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
-                  Terms of Service
-                </a>{' '}
-                and{' '}
-                <a href="#" className="font-medium text-primary-600 hover:text-primary-500">
+                <button className="font-medium text-primary-600 hover:text-primary-500"
+                  onClick={() => setShowTerms(true)}
+                >Terms & Conditions &nbsp;
+                </button>
+                 and{' '}
+                <button className="font-medium text-primary-600 hover:text-primary-500">
                   Privacy Policy
-                </a>
+                </button>
               </label>
+
+              <Modal 
+              isOpen={showTerms}
+              onClose={() => setShowTerms(false)}
+                title="Terms & Conditions"
+                iframeSrc="/t&c.html"/>
             </div>
 
             <div>
