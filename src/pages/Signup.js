@@ -211,8 +211,9 @@ const Signup = ({ onSignup }) => {
                 >Terms & Conditions &nbsp;
                 </button>
                  and{' '}
-                <button className="font-medium text-primary-600 hover:text-primary-500">
-                  Privacy Policy
+                <button className="font-medium text-primary-600 hover:text-primary-500"
+                onClick={() => setShowTerms(true)}
+                >Privacy Policy
                 </button>
               </label>
 
@@ -221,6 +222,12 @@ const Signup = ({ onSignup }) => {
               onClose={() => setShowTerms(false)}
                 title="Terms & Conditions"
                 iframeSrc="/t&c.html"/>
+
+              <Modal 
+              isOpen={showTerms}
+              onClose={() => setShowTerms(false)}
+                title="Privacy Policy"
+                iframeSrc="/pp.html"/>
             </div>
 
             <div>
