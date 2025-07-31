@@ -10,7 +10,6 @@ import toast from 'react-hot-toast';
 
 
 
-
 function App() {
   
   const [isAuthenticated, setIsAuthenticated] = useState(false);
@@ -18,6 +17,7 @@ function App() {
   const [loading, setLoading] = useState(true);
   
   useEffect(() => {
+  
     // Check if user is logged in from localStorage (no token required)
     const userData = localStorage.getItem('userData');
     if (userData) {
@@ -90,6 +90,7 @@ function App() {
             } 
           />
         </Routes>
+       
       </main>
     </div>
   );
