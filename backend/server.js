@@ -19,6 +19,11 @@ const userSchema = new mongoose.Schema({
   name: String,
   email: { type: String, unique: true },
   password: String,
+  preferences: {
+    age: String,
+    colorTone: String,
+    events: [String],
+  },
 });
 const User = mongoose.model('User', userSchema);
 
@@ -56,8 +61,45 @@ app.post('/login', async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) return res.status(400).json({ error: 'Incorrect password' });
 
-  // You can generate a JWT here if you want
-  res.json({ message: 'Login successful', user: { name: user.name, email: user.email } });
+  // Return full user object (excluding password)
+  res.json({
+    message: 'Login successful',
+    user: {
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      preferences: user.preferences || {},
+    }
+  });
+});
+
+// PUT /api/users/:id - update name and preferences only
+app.put('/api/users/:id', async (req, res) => {
+  const { name, preferences } = req.body;
+  const update = {};
+  if (name) update.name = name;
+  if (preferences) {
+    update.preferences = {};
+    if (preferences.age !== undefined) update.preferences.age = preferences.age;
+    if (preferences.colorTone !== undefined) update.preferences.colorTone = preferences.colorTone;
+    if (preferences.events !== undefined) update.preferences.events = preferences.events;
+  }
+  try {
+    const user = await User.findByIdAndUpdate(
+      req.params.id,
+      { $set: update },
+      { new: true, runValidators: true, fields: { password: 0 } }
+    );
+    if (!user) return res.status(404).json({ error: 'User not found' });
+    res.json({
+      _id: user._id,
+      name: user.name,
+      email: user.email,
+      preferences: user.preferences || {},
+    });
+  } catch (err) {
+    res.status(400).json({ error: 'Failed to update user' });
+  }
 });
 
 const PORT = 5000;
