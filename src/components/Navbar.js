@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { Menu, X, LogOut, Sparkles, User, History, Bell } from 'lucide-react';
+import { Menu, X, LogOut, Sparkles, User, History } from 'lucide-react';
 
 const Navbar = ({ isAuthenticated, user, onLogout }) => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
