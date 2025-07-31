@@ -3,6 +3,7 @@ import { User, Heart, History, Palette } from 'lucide-react';
 import toast from 'react-hot-toast';
 import { useLocation } from 'react-router-dom';
 import { useEffect } from 'react';
+import axios from 'axios';
 
 
 const Profile = ({ user, setUser }) => {
@@ -76,20 +77,18 @@ const Profile = ({ user, setUser }) => {
 
   const handleSave = async () => {
     try {
-      // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
-      const updatedUser = {
-        ...user,
-        name: formData.name,
-        email: formData.email,
-        preferences: {
-          age: formData.age,
-          colorTone: formData.colorTone,
-          events: formData.events
+      const res = await axios.put(
+        `/api/users/${user._id}`,
+        {
+          name: formData.name,
+          preferences: {
+            age: formData.age,
+            colorTone: formData.colorTone,
+            events: formData.events,
+          },
         }
-      };
-      
+      );
+      const updatedUser = res.data;
       setUser(updatedUser);
       localStorage.setItem('userData', JSON.stringify(updatedUser));
       setIsEditing(false);
@@ -98,6 +97,9 @@ const Profile = ({ user, setUser }) => {
       toast.error('Failed to update profile. Please try again.');
     }
   };
+  if (!user || !user._id) {
+    return <div className="text-red-500">User not loaded. Please log in again.</div>;
+  }
 
   const mockSavedItems = [
     {
@@ -245,9 +247,8 @@ const Profile = ({ user, setUser }) => {
                   type="email"
                   name="email"
                   value={formData.email}
-                  onChange={handleChange}
-                  disabled={!isEditing}
-                  className="input-field disabled:bg-gray-50"
+                  readOnly
+                  className="input-field bg-gray-100 cursor-not-allowed text-gray-500"
                 />
               </div>
             </div>
