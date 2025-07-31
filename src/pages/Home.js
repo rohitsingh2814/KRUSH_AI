@@ -71,52 +71,6 @@ const Home = () => {
           </div>
         </div>
       </section>
-      <br></br>
-      <div className="mt-10">
-  <h2 className="text-xl font-bold mb-4">🔥  Today’s Looks — Fresh & Styled for You </h2>
-  <div className="flex space-x-4 overflow-x-auto pb-4">
-    {[
-      {
-        title: "Coastal Grandma",
-        tip: "Light layers, linen, and neutrals.",
-        image: "https://www.casuallycoastal.com/wp-content/uploads/2024/04/coastal-grandma-style-wardrobe-staples.jpeg"
-      },
-      {
-        title: "Barbiecore",
-        tip: "All pink everything!",
-        image: "https://media-api.xogrp.com/images/e91d9b3c-d140-4b17-bb9a-09d6635c72cb~rs_768.h"
-      },
-      {
-        title: "Cozy Street",
-        tip: "Oversized hoodies, cargo joggers, layers",
-        image: "https://www.moderngentlemanmagazine.com/wp-content/uploads/2024/09/Oversized-Hoodie-And-Cargo-Pants--650x910.jpeg"
-      },
-      {
-        title: "Y2K Retro",
-        tip: "Low-rise jeans and tiny tees.",
-        image: "https://i.pinimg.com/736x/8c/25/7c/8c257c38c8ed0672db0a2ca3170c8f9f.jpg"
-      },
-      {
-        title: "Denim Daze",
-        tip: "Relaxed jeans, tanks, unisex streetwear",
-        image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS32y53QMi4g0nEB4vfF64JTGMl-__PDR_X193h0GS0983DrgnRT4FKS-mn_tyvM8xZNt0&usqp=CAU"
-      },
-      {
-        title: "Soft Girl",
-        tip: "Pastels, blush, and soft textures.",
-        image: "https://i.pinimg.com/736x/4d/f0/f6/4df0f65137d78b9ee9e5013ff8e51356.jpg"
-      }
-    ].map((style, index) => (
-      <div key={index} className="min-w-[200px] bg-white rounded-xl shadow-md">
-        <img src={style.image} alt={style.title} className="h-40 w-full object-cover rounded-t-xl" />
-        <div className="p-3">
-          <h3 className="font-semibold">{style.title}</h3>
-          <p className="text-sm text-gray-500">{style.tip}</p>
-        </div>
-      </div>
-    ))}
-  </div>
-</div>
 
       {/* Features Section */}
       <section className="py-20 bg-white">
@@ -215,6 +169,58 @@ const Home = () => {
           </Link>
         </div>
       </section>
+      <footer className="relative overflow-hidden bg-orange-50 py-12 px-4 text-center">
+      {/* Sparkle Particles */}
+      <div className="pointer-events-none absolute inset-0 z-0">
+        <span className="sparkle-particle top-5 left-10"></span>
+        <span className="sparkle-particle top-12 right-16 delay-100"></span>
+        <span className="sparkle-particle bottom-8 left-1/2 delay-200"></span>
+        <span className="sparkle-particle top-1/3 right-8 delay-300"></span>
+        <span className="sparkle-particle bottom-5 left-8 delay-500"></span>
+      </div>
+
+      {/* Footer Content */}
+      <div className="relative z-10 max-w-4xl mx-auto">
+        <h2 className="text-2xl font-bold text-gray-800">
+          Krush AI — Smart Fit. Styled Right.
+        </h2>
+
+        
+        <p className="mt-6 text-sm text-gray-500">
+          © {new Date().getFullYear()} Krush AI. All rights reserved.
+        </p>
+      </div>
+
+      {/* Sparkle CSS Keyframes */}
+      <style>
+        {`
+          @keyframes sparkle {
+            0%, 100% {
+              transform: scale(1);
+              opacity: 0.5;
+            }
+            50% {
+              transform: scale(1.6) rotate(20deg);
+              opacity: 1;
+            }
+          }
+
+          .sparkle-particle {
+            position: absolute;
+            width: 6px;
+            height: 6px;
+            background: radial-gradient(circle, #FFD700, #FFA500);
+            border-radius: 50%;
+            animation: sparkle 1.8s infinite ease-in-out;
+          }
+
+          .delay-100 { animation-delay: 0.1s; }
+          .delay-200 { animation-delay: 0.2s; }
+          .delay-300 { animation-delay: 0.3s; }
+          .delay-500 { animation-delay: 0.5s; }
+        `}
+      </style>
+    </footer>
     </div>
   );
 };
