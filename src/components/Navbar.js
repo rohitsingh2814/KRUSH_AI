@@ -83,10 +83,10 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
               {isAuthenticated ? (
                 <div className="flex items-center space-x-3">
                   {/* Notification Bell */}
-                  <button className="relative p-2 text-gray-600 hover:text-primary-600 transition-colors duration-200 hover:bg-primary-50 rounded-xl">
+                  {/* <button className="relative p-2 text-gray-600 hover:text-primary-600 transition-colors duration-200 hover:bg-primary-50 rounded-xl">
                     <Bell className="h-5 w-5" />
                     <span className="absolute -top-1 -right-1 h-3 w-3 bg-gradient-to-r from-red-500 to-pink-500 rounded-full animate-pulse"></span>
-                  </button>
+                  </button> */}
 
                   {/* Profile Dropdown */}
                   <div className="relative" ref={profileMenuRef}>
