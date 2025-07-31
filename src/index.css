@@ -182,3 +182,12 @@
   90% { opacity: 1; transform: translateY(0); }
   100% { opacity: 0; transform: translateY(30px); }
 }
+/* Hide scrollbar but keep scroll functionality */
+.hide-scrollbar {
+  scrollbar-width: none;          /* Firefox */
+  -ms-overflow-style: none;       /* IE & Edge */
+}
+
+.hide-scrollbar::-webkit-scrollbar {
+  display: none;                  /* Chrome, Safari, Opera */
+}
