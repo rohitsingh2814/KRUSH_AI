@@ -102,5 +102,69 @@ app.put('/api/users/:id', async (req, res) => {
   }
 });
 
+// POST /api/recommendations - get clothing recommendations based on questionnaire answers
+app.post('/api/recommendations', async (req, res) => {
+  try {
+    const { answers } = req.body;
+    
+    // Mock AI response - in a real app, this would call an AI service
+    const mockRecommendations = {
+      products: [
+        {
+          name: "Elegant Evening Dress",
+          price: 89.99,
+          image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400",
+          link: "https://example.com/product1",
+          description: "Perfect for your body type and occasion"
+        },
+        {
+          name: "Casual Summer Blouse",
+          price: 45.99,
+          image: "https://images.unsplash.com/photo-1551698618-1dfe5d97d256?w=400",
+          link: "https://example.com/product2",
+          description: "Complements your skin tone beautifully"
+        },
+        {
+          name: "Professional Work Suit",
+          price: 129.99,
+          image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400",
+          link: "https://example.com/product3",
+          description: "Tailored for your measurements"
+        },
+        {
+          name: "Date Night Cocktail Dress",
+          price: 75.99,
+          image: "https://images.unsplash.com/photo-1515372039744-b8f02a3ae446?w=400",
+          link: "https://example.com/product4",
+          description: "Flattering for your body shape"
+        },
+        {
+          name: "Comfortable Casual Jeans",
+          price: 59.99,
+          image: "https://images.unsplash.com/photo-1542272604-787c3835535d?w=400",
+          link: "https://example.com/product5",
+          description: "Perfect fit for your measurements"
+        },
+        {
+          name: "Formal Business Attire",
+          price: 149.99,
+          image: "https://images.unsplash.com/photo-1594633312681-425c7b97ccd1?w=400",
+          link: "https://example.com/product6",
+          description: "Professional and stylish"
+        }
+      ]
+    };
+
+    // Simulate AI processing delay
+    setTimeout(() => {
+      res.json(mockRecommendations);
+    }, 1000);
+    
+  } catch (error) {
+    console.error('Error getting recommendations:', error);
+    res.status(500).json({ error: 'Failed to get recommendations' });
+  }
+});
+
 const PORT = 5000;
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`)); 

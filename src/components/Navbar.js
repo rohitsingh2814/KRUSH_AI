@@ -73,6 +73,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             {/* Desktop Menu */}
             <div className="hidden md:flex items-center space-x-1">
               <NavLink to="/" label="Home" />
+              <NavLink to="/questionnaire" label="Style Quiz" />
               {isAuthenticated && (
                 <NavLink to="/dashboard" label="Studio" />
               )}
@@ -198,6 +199,7 @@ const Navbar = ({ isAuthenticated, user, onLogout }) => {
             <div className="container mx-auto px-4 py-6">
               <div className="flex flex-col space-y-4">
                 <MobileNavLink to="/" label="Home" onClick={() => setIsMenuOpen(false)} />
+                <MobileNavLink to="/questionnaire" label="Style Quiz" onClick={() => setIsMenuOpen(false)} />
                 {isAuthenticated && (
                   <MobileNavLink to="/dashboard" label="Studio" onClick={() => setIsMenuOpen(false)} />
                 )}

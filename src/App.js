@@ -6,6 +6,8 @@ import Login from './pages/Login';
 import Signup from './pages/Signup';
 import Dashboard from './pages/Dashboard';
 import Profile from './pages/Profile';
+import Questionnaire from './components/Questionnaire';
+import QuestionnaireLanding from './pages/QuestionnaireLanding';
 import toast from 'react-hot-toast';
 
 
@@ -88,6 +90,14 @@ function App() {
               <Profile user={user} setUser={setUser} /> : 
               <Navigate to="/login" replace />
             } 
+          />
+          <Route 
+            path="/questionnaire" 
+            element={<QuestionnaireLanding />} 
+          />
+          <Route 
+            path="/questionnaire/quiz" 
+            element={<Questionnaire />} 
           />
         </Routes>
        
