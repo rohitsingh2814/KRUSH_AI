@@ -25,12 +25,13 @@ const Questionnaire = () => {
     {
       id: 'bodyType',
       question: 'What is your body type?',
+      image: bodyTypeImage,
       type: 'body-type-options',
       options: [
         { 
-          value: 'hourglass', 
-          label: 'Hourglass', 
-          description: 'Balanced shoulders and hips, defined waist'
+          value: 'triangle', 
+          label: 'Triangle/Pear', 
+          description: 'Wider hips, narrower shoulders'
         },
         { 
           value: 'rectangle', 
@@ -38,24 +39,24 @@ const Questionnaire = () => {
           description: 'Similar measurements throughout'
         },
         { 
-          value: 'triangle', 
-          label: 'Triangle/Pear', 
-          description: 'Wider hips, narrower shoulders'
-        },
-        { 
           value: 'inverted-triangle', 
           label: 'Inverted Triangle', 
           description: 'Broader shoulders, narrower hips'
         },
         { 
-          value: 'diamond', 
-          label: 'Diamond', 
-          description: 'Wider at the waist, narrower at shoulders and hips'
+          value: 'hourglass', 
+          label: 'Hourglass', 
+          description: 'Balanced shoulders and hips, defined waist'
         },
         { 
           value: 'round', 
           label: 'Round/Apple', 
           description: 'Fuller around the middle'
+        },
+        { 
+          value: 'diamond', 
+          label: 'Diamond', 
+          description: 'Wider at the waist, narrower at shoulders and hips'
         },
         { 
           value: 'other', 
@@ -410,9 +411,18 @@ const Questionnaire = () => {
       <div className="bg-white rounded-lg shadow-lg p-4 sm:p-6 mb-6">
         <h2 className="text-xl sm:text-2xl font-semibold text-gray-800 mb-6">
           {questions[currentQuestion].question}
+          {questions[currentQuestion].image && (
+        <img
+          src={questions[currentQuestion].image}
+          alt="Body Type"
+          className="mb-6 w-full max-w-md mx-auto rounded-lg shadow-sm"
+        />
+      )}
         </h2>
         {renderQuestion(questions[currentQuestion])}
       </div>
+
+      
 
       {/* Error Message */}
       {error && (
