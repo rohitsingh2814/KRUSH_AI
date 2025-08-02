@@ -12,16 +12,57 @@ const Questionnaire = () => {
 
   const questions = [
     {
+      id: 'gender',
+      question: "What's your gender?",
+      type: 'range-options',
+      options: [
+        { value: 'male', label: 'Male' },
+        { value: 'female', label: 'Female' },
+        { value: 'other', label: 'Other' },
+        { value: 'prefer-not-to-say', label: 'Do not want to specify' }
+      ]
+    },
+    {
       id: 'bodyType',
       question: 'What is your body type?',
-      type: 'image-options',
+      type: 'body-type-options',
       options: [
-        { value: 'hourglass', label: 'Hourglass', image: bodyTypeImage },
-        { value: 'rectangle', label: 'Rectangle', image: bodyTypeImage },
-        { value: 'triangle', label: 'Triangle', image: bodyTypeImage },
-        { value: 'inverted-triangle', label: 'Inverted Triangle', image: bodyTypeImage },
-        { value: 'diamond', label: 'Diamond', image: bodyTypeImage },
-        { value: 'other', label: 'Other', isTextInput: true }
+        { 
+          value: 'hourglass', 
+          label: 'Hourglass', 
+          description: 'Balanced shoulders and hips, defined waist'
+        },
+        { 
+          value: 'rectangle', 
+          label: 'Rectangle', 
+          description: 'Similar measurements throughout'
+        },
+        { 
+          value: 'triangle', 
+          label: 'Triangle/Pear', 
+          description: 'Wider hips, narrower shoulders'
+        },
+        { 
+          value: 'inverted-triangle', 
+          label: 'Inverted Triangle', 
+          description: 'Broader shoulders, narrower hips'
+        },
+        { 
+          value: 'diamond', 
+          label: 'Diamond', 
+          description: 'Wider at the waist, narrower at shoulders and hips'
+        },
+        { 
+          value: 'round', 
+          label: 'Round/Apple', 
+          description: 'Fuller around the middle'
+        },
+        { 
+          value: 'other', 
+          label: 'Other', 
+          description: 'Describe your body type',
+          isTextInput: true 
+        }
       ]
     },
     {
@@ -65,21 +106,25 @@ const Questionnaire = () => {
         { 
           value: 'warm', 
           label: 'Warm', 
+          description: 'Golden, yellow undertones',
           colors: ['#FFD700', '#FFA500', '#FF8C00', '#FF6347']
         },
         { 
           value: 'cool', 
           label: 'Cool', 
+          description: 'Blue, pink undertones',
           colors: ['#4169E1', '#9370DB', '#8A2BE2', '#4B0082']
         },
         { 
           value: 'neutral', 
           label: 'Neutral', 
+          description: 'Balanced undertones',
           colors: ['#808080', '#A9A9A9', '#C0C0C0', '#D3D3D3']
         },
         { 
           value: 'olive', 
           label: 'Olive', 
+          description: 'Green, yellow undertones',
           colors: ['#808000', '#9ACD32', '#6B8E23', '#556B2F']
         }
       ]
@@ -118,12 +163,27 @@ const Questionnaire = () => {
       [questionId]: answer
     }));
     
-    // Auto-advance to next question after a short delay
-    setTimeout(() => {
-      if (currentQuestion < questions.length - 1) {
-        setCurrentQuestion(prev => prev + 1);
-      }
-    }, 500);
+    // Auto-advance to next question after a short delay (only if not a text input)
+    const currentQ = questions.find(q => q.id === questionId);
+    const selectedOption = currentQ?.options.find(opt => opt.value === answer);
+    
+    if (!selectedOption?.isTextInput) {
+      setTimeout(() => {
+        if (currentQuestion < questions.length - 1) {
+          setCurrentQuestion(prev => prev + 1);
+        } else {
+          // If this is the last question, automatically submit
+          handleSubmit();
+        }
+      }, 500);
+    }
+  };
+
+  const handleTextInput = (questionId, textValue) => {
+    setAnswers(prev => ({
+      ...prev,
+      [questionId]: textValue
+    }));
   };
 
   const handlePrevious = () => {
@@ -158,7 +218,7 @@ const Questionnaire = () => {
     const currentAnswer = answers[question.id];
 
     switch (question.type) {
-      case 'image-options':
+      case 'body-type-options':
         return (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {question.options.map((option) => (
@@ -171,20 +231,17 @@ const Questionnaire = () => {
                 }`}
                 onClick={() => handleAnswer(question.id, option.value)}
               >
-                <img
-                  src={option.image}
-                  alt={option.label}
-                  className="w-full h-32 object-cover rounded-md mb-2"
-                />
-                <p className="text-center font-medium text-gray-700">
-                  {option.label}
-                </p>
+                <div className="text-center mb-3">
+                  <h3 className="font-semibold text-gray-800 mb-1">{option.label}</h3>
+                  <p className="text-sm text-gray-600">{option.description}</p>
+                </div>
                 {option.isTextInput && currentAnswer === option.value && (
                   <input
                     type="text"
                     placeholder="Describe your body type..."
                     className="mt-2 w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-primary-500"
-                    onChange={(e) => handleAnswer(question.id, e.target.value)}
+                    onChange={(e) => handleTextInput(question.id, e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
                 )}
               </div>
@@ -213,7 +270,7 @@ const Questionnaire = () => {
 
       case 'color-options':
         return (
-          <div className="grid grid-cols-2 lg:grid-cols-4 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {question.options.map((option) => (
               <div
                 key={option.value}
@@ -224,7 +281,7 @@ const Questionnaire = () => {
                 }`}
                 onClick={() => handleAnswer(question.id, option.value)}
               >
-                <div className="flex flex-wrap gap-1 mb-2 justify-center">
+                <div className="flex flex-wrap gap-1 mb-3 justify-center">
                   {option.colors.map((color, index) => (
                     <div
                       key={index}
@@ -233,8 +290,11 @@ const Questionnaire = () => {
                     />
                   ))}
                 </div>
-                <p className="text-center font-medium text-gray-700">
+                <h3 className="text-center font-semibold text-gray-800 mb-1">
                   {option.label}
+                </h3>
+                <p className="text-center text-sm text-gray-600">
+                  {option.description}
                 </p>
               </div>
             ))}
@@ -260,7 +320,8 @@ const Questionnaire = () => {
                     type="text"
                     placeholder="Specify occasion..."
                     className="mt-2 w-full px-2 py-1 text-sm border border-gray-300 rounded focus:outline-none focus:ring-1 focus:ring-primary-500"
-                    onChange={(e) => handleAnswer(question.id, e.target.value)}
+                    onChange={(e) => handleTextInput(question.id, e.target.value)}
+                    onClick={(e) => e.stopPropagation()}
                   />
                 )}
               </button>
@@ -318,7 +379,7 @@ const Questionnaire = () => {
               setCurrentQuestion(0);
               setError(null);
             }}
-            className="bg-gray-500 text-white px-6 py-2 rounded-md hover:bg-gray-600 transition-colors"
+            className="bg-primary-500 text-white px-6 py-2 rounded-md hover:bg-primary-600 transition-colors"
           >
             Start Over
           </button>
@@ -337,9 +398,9 @@ const Questionnaire = () => {
           </span>
           <span className="text-sm text-gray-600">{Math.round(progress)}%</span>
         </div>
-        <div className="w-full bg-gray-200 rounded-full h-2">
+        <div className="w-full bg-gray-200 rounded-full h-3">
           <div
-            className="bg-primary-500 h-2 rounded-full transition-all duration-300"
+            className="bg-gradient-to-r from-primary-400 to-primary-600 h-3 rounded-full transition-all duration-500 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>
@@ -368,7 +429,7 @@ const Questionnaire = () => {
           className={`flex items-center space-x-2 px-6 py-2 rounded-md transition-colors ${
             currentQuestion === 0
               ? 'bg-gray-300 text-gray-500 cursor-not-allowed'
-              : 'bg-gray-500 text-white hover:bg-gray-600'
+              : 'bg-primary-500 text-white hover:bg-primary-600'
           }`}
         >
           <ArrowLeft className="h-4 w-4" />
