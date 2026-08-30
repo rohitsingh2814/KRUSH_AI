@@ -10,16 +10,15 @@ dotenv.config({
 
 
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,
-    port: Number(process.env.EMAIL_PORT),
+    host: "smtp.gmail.com",
+    port: 587,
     secure: false,
-
+    family: 4,
     auth: {
         user: process.env.EMAIL_USER,
-        pass: process.env.EMAIL_PASS
-    }
+        pass: process.env.EMAIL_PASS,
+    },
 });
-
 const sendPasswordResetEmail = async (email, resetUrl) => {
 
     await transporter.sendMail({
