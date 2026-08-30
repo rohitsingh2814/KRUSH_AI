@@ -13,13 +13,14 @@
     "@react-oauth/google": "^0.13.5",
     "@tailwindcss/vite": "^4.3.3",
     "axios": "^1.19.0",
-    "krush_ai": "file:..",
+     "@vitejs/plugin-react": "^6.1.1",
     "lucide-react": "^1.34.0",
     "react": "^19.2.8",
     "react-dom": "^19.2.8",
     "react-hot-toast": "^2.6.0",
     "react-router-dom": "^7.18.2",
-    "tailwindcss": "^4.3.3"
+    "tailwindcss": "^4.3.3",
+    "vite": "^8.2.2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
