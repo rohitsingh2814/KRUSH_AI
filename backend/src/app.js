@@ -18,7 +18,7 @@ app.use(cors({
 
 const root = path.resolve();
 
-const frontendPath = path.join(process.cwd(), "..", "Frontend", "dist");
+const frontendPath = path.join(process.cwd(), "..", "frontend", "dist");
 console.log(process.cwd());
 
 app.use(express.json());
